@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Simulator</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; background: #f8fafc; color: #334155; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+        h1 { color: #0f172a; }
+        h2 { margin-top: 0; font-size: 1.2rem; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 0.5rem; margin-bottom: 1rem; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
+        button { background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: 500; }
+        button:hover { background: #2563eb; }
+        button.danger { background: #ef4444; }
+        button.danger:hover { background: #dc2626; }
+        .log { background: #1e293b; color: #10b981; padding: 1rem; border-radius: 4px; font-family: monospace; height: 300px; overflow-y: auto; white-space: pre-wrap; }
+        .status { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.875rem; font-weight: bold; background: #e2e8f0; color: #64748b; margin-left: 1rem; }
+        .status.online { background: #dcfce7; color: #166534; }
+    </style>
+</head>
+<body>
+    <h1>Raspberry Pi Simulator</h1>
+    <p>Use this page to simulate the Pi hardware for testing the backend and dashboard.</p>
+
+    <div class="card">
+        <h2>1. Connection Settings</h2>
+        <label>Backend API URL</label>
+        <input type="text" id="apiUrl" value="http://localhost:8000">
+        
+        <div style="display: flex; align-items: center;">
+            <button onclick="connectStream()">Connect SSE Stream</button>
+            <button onclick="disconnectStream()" class="danger" style="margin-left: 0.5rem;">Disconnect</button>
+            <span id="statusBadge" class="status">Offline</span>
+        </div>
+        <p style="font-size: 0.875rem; color: #64748b; margin-top: 0.75rem;">Connecting will turn the Dashboard's "System Online" indicator green.</p>
+    </div>
+
+    <div class="card">
+        <h2>2. Simulate Camera Capture</h2>
+        <p style="font-size: 0.875rem; color: #64748b;">Upload a test image or use your webcam to trigger the detection pipeline, Supabase logging, and Push/Email alerts.</p>
+        
+        <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0;">
+            <h3 style="margin-top: 0; font-size: 1rem;">Option A: Upload File</h3>
+            <input type="file" id="imageFile" accept="image/*">
+            <button onclick="sendImage(this)">Send Image to /detect</button>
+        </div>
+
+        <div>
+            <h3 style="margin-top: 0; font-size: 1rem;">Option B: Use Webcam</h3>
+            <button onclick="startWebcam()" id="btnStartWebcam">Start Webcam</button>
+            <button onclick="stopWebcam()" id="btnStopWebcam" class="danger" style="display:none;">Stop Webcam</button>
+            <div style="margin-top: 1rem;">
+                <video id="webcamVideo" autoplay playsinline style="display:none; width: 100%; max-width: 400px; border: 1px solid #cbd5e1; border-radius: 4px; background: #000;"></video>
+            </div>
+            <button onclick="captureAndSend(this)" id="btnCapture" style="display:none; margin-top: 0.5rem;">Capture & Send</button>
+            <canvas id="webcamCanvas" style="display:none;"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Event Log</h2>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let eventSource = null;
+
+        function logMessage(msg, type="INFO") {
+            const logDiv = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${time}] [${type}] ${msg}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function connectStream() {
+            if (eventSource) disconnectStream();
+            
+            const url = document.getElementById('apiUrl').value;
+            logMessage(`Connecting to ${url}/api/pi/stream...`);
+            
+            eventSource = new EventSource(`${url}/api/pi/stream`);
+            
+            eventSource.onopen = () => {
+                logMessage('SSE Connection established.');
+                const badge = document.getElementById('statusBadge');
+                badge.textContent = 'Online';
+                badge.className = 'status online';
+            };
+            
+            eventSource.addEventListener('command', (e) => {
+                logMessage(e.data, "COMMAND_RECEIVED");
+                // Simulate taking a photo if it's a capture command
+                try {
+                    const data = JSON.parse(e.data);
+                    if (data.type === 'capture') {
+                        logMessage(`Dashboard requested capture for Camera ${data.payload.camera_id}. Use the 'Simulate Camera Capture' section above to upload a file.`);
+                    }
+                } catch(err) {}
+            });
+
+            eventSource.onerror = (err) => {
+                logMessage('SSE Connection lost or failed.', "ERROR");
+                disconnectStream();
+            };
+        }
+
+        function disconnectStream() {
+            if(eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+            const badge = document.getElementById('statusBadge');
+            badge.textContent = 'Offline';
+            badge.className = 'status';
+            logMessage('Disconnected from SSE stream.');
+        }
+
+        async function sendImage(btn) {
+            const fileInput = document.getElementById('imageFile');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                return alert('Please select an image file first.');
+            }
+            
+            const file = fileInput.files[0];
+            const url = document.getElementById('apiUrl').value;
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            logMessage(`Uploading ${file.name} to /detect...`);
+            btn.disabled = true;
+            btn.textContent = 'Uploading...';
+            
+            try {
+                const res = await fetch(`${url}/api/detect`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                logMessage(JSON.stringify(data, null, 2), "DETECT_RESPONSE");
+            } catch (e) {
+                logMessage(e.message, "ERROR");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send Image to /detect';
+            }
+        }
+
+        let webcamStream = null;
+
+        async function startWebcam() {
+            try {
+                webcamStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('webcamVideo');
+                video.srcObject = webcamStream;
+                video.style.display = 'block';
+                document.getElementById('btnStartWebcam').style.display = 'none';
+                document.getElementById('btnStopWebcam').style.display = 'inline-block';
+                document.getElementById('btnCapture').style.display = 'inline-block';
+                logMessage('Webcam started.');
+            } catch (err) {
+                logMessage(`Webcam error: ${err.message}`, "ERROR");
+                alert("Could not access webcam. Please make sure you granted permission.");
+            }
+        }
+
+        function stopWebcam() {
+            if (webcamStream) {
+                webcamStream.getTracks().forEach(track => track.stop());
+                webcamStream = null;
+            }
+            document.getElementById('webcamVideo').style.display = 'none';
+            document.getElementById('btnStartWebcam').style.display = 'inline-block';
+            document.getElementById('btnStopWebcam').style.display = 'none';
+            document.getElementById('btnCapture').style.display = 'none';
+            logMessage('Webcam stopped.');
+        }
+
+        async function captureAndSend(btn) {
+            const video = document.getElementById('webcamVideo');
+            const canvas = document.getElementById('webcamCanvas');
+            
+            if (!webcamStream || !video.videoWidth) {
+                return alert("Webcam not ready.");
+            }
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            canvas.toBlob(async (blob) => {
+                if (!blob) return alert("Failed to capture image.");
+                
+                const url = document.getElementById('apiUrl').value;
+                const formData = new FormData();
+                formData.append('file', blob, 'webcam.jpg');
+                
+                logMessage(`Uploading webcam capture to /detect...`);
+                btn.disabled = true;
+                btn.textContent = 'Uploading...';
+                
+                try {
+                    const res = await fetch(`${url}/api/detect`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    logMessage(JSON.stringify(data, null, 2), "DETECT_RESPONSE");
+                } catch (e) {
+                    logMessage(e.message, "ERROR");
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Capture & Send';
+                }
+            }, 'image/jpeg', 0.9);
+        }
+    </script>
+</body>
+</html>

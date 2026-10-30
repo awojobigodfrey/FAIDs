@@ -1,0 +1,15 @@
+fastapi==0.109.0
+uvicorn==0.27.0
+python-dotenv==1.0.0
+azure-cognitiveservices-vision-customvision==3.1.0
+azure-ai-vision-face==1.0.0b1
+azure-storage-blob==12.19.0
+pywebpush==2.3.0
+py_vapid==1.9.0
+resend==0.8.0
+supabase
+pydantic==2.5.3
+python-multipart==0.0.6
+pillow==10.2.0
+opencv-python-headless==4.9.0.80
+numpy==1.26.4
