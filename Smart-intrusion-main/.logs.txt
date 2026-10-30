@@ -1,0 +1,100 @@
+2026-07-30T01:07:51.657865391Z Using cached hpack-4.2.0-py3-none-any.whl (34 kB)
+2026-07-30T01:07:51.658864394Z Using cached hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-07-30T01:07:51.88959172Z Installing collected packages: strenum, azure-common, websockets, urllib3, typing-extensions, six, python-multipart, python-dotenv, pyjwt, pycparser, propcache, pillow, packaging, oauthlib, numpy, multidict, isodate, idna, hyperframe, hpack, h11, frozenlist, click, charset-normalizer, certifi, attrs, annotated-types, aiohappyeyeballs, yarl, uvicorn, requests, realtime, python-dateutil, pydantic-core, opencv-python-headless, httpcore, h2, deprecation, cffi, anyio, aiosignal, starlette, resend, requests-oauthlib, pydantic, httpx, cryptography, azure-core, aiohttp, py_vapid, msrest, http-ece, fastapi, azure-storage-blob, azure-ai-vision-face, supafunc, storage3, pywebpush, postgrest, gotrue, azure-cognitiveservices-vision-customvision, supabase
+2026-07-30T01:07:55.696391174Z Successfully installed aiohappyeyeballs-2.7.1 aiohttp-3.14.3 aiosignal-1.4.0 annotated-types-0.8.0 anyio-4.14.2 attrs-26.1.0 azure-ai-vision-face-1.0.0b1 azure-cognitiveservices-vision-customvision-3.1.0 azure-common-1.1.28 azure-core-1.41.0 azure-storage-blob-12.19.0 certifi-2026.7.22 cffi-2.1.0 charset-normalizer-3.4.9 click-8.4.2 cryptography-49.0.0 deprecation-2.1.0 fastapi-0.109.0 frozenlist-1.8.0 gotrue-2.12.4 h11-0.16.0 h2-4.4.0 hpack-4.2.0 http-ece-1.2.1 httpcore-1.0.9 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 isodate-0.7.2 msrest-0.7.1 multidict-6.7.1 numpy-1.26.4 oauthlib-3.3.1 opencv-python-headless-4.9.0.80 packaging-26.2 pillow-10.2.0 postgrest-1.1.1 propcache-0.5.2 py_vapid-1.9.0 pycparser-3.0 pydantic-2.5.3 pydantic-core-2.14.6 pyjwt-2.13.0 python-dateutil-2.9.0.post0 python-dotenv-1.0.0 python-multipart-0.0.6 pywebpush-2.3.0 realtime-2.5.3 requests-2.31.0 requests-oauthlib-2.0.0 resend-0.8.0 six-1.17.0 starlette-0.35.1 storage3-0.12.1 strenum-0.4.15 supabase-2.16.0 supafunc-0.10.2 typing-extensions-4.16.0 urllib3-2.7.0 uvicorn-0.27.0 websockets-15.0.1 yarl-1.24.5
+2026-07-30T01:07:55.712357226Z 
+2026-07-30T01:07:55.712372287Z [notice] A new release of pip is available: 24.0 -> 26.1.2
+2026-07-30T01:07:55.712373509Z [notice] To update, run: pip install --upgrade pip
+2026-07-30T01:07:57.20154787Z ==> Uploading build...
+2026-07-30T01:08:02.331852165Z ==> Uploaded in 4.1s. Compression took 1.1s
+2026-07-30T01:08:02.335207021Z ==> Build successful 🎉
+2026-07-30T01:08:06.629698939Z ==> Deploying...
+2026-07-30T01:08:06.704498428Z ==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
+2026-07-30T01:08:17.820541052Z ==> Running 'uvicorn main:app --host 0.0.0.0 --port $PORT'
+2026-07-30T01:08:31.045661993Z Downloading MobileNetSSD prototxt...
+2026-07-30T01:08:31.045673844Z Traceback (most recent call last):
+2026-07-30T01:08:31.045697055Z   File "/opt/render/project/src/.venv/bin/uvicorn", line 8, in <module>
+2026-07-30T01:08:31.045724217Z     sys.exit(main())
+2026-07-30T01:08:31.045794471Z              ^^^^^^
+2026-07-30T01:08:31.045801071Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/click/core.py", line 1569, in __call__
+2026-07-30T01:08:31.046049495Z     return self.main(*args, **kwargs)
+2026-07-30T01:08:31.046053245Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.046058746Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/click/core.py", line 1490, in main
+2026-07-30T01:08:31.046332121Z     rv = self.invoke(ctx)
+2026-07-30T01:08:31.046344191Z          ^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.046347432Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/click/core.py", line 1353, in invoke
+2026-07-30T01:08:31.046547823Z     return ctx.invoke(self.callback, **ctx.params)
+2026-07-30T01:08:31.046553233Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.046557334Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/click/core.py", line 907, in invoke
+2026-07-30T01:08:31.046719153Z     return callback(*args, **kwargs)
+2026-07-30T01:08:31.046723823Z            ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.046730933Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/uvicorn/main.py", line 418, in main
+2026-07-30T01:08:31.046889082Z     run(
+2026-07-30T01:08:31.046893993Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/uvicorn/main.py", line 587, in run
+2026-07-30T01:08:31.047018909Z     server.run()
+2026-07-30T01:08:31.04702488Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/uvicorn/server.py", line 62, in run
+2026-07-30T01:08:31.047126806Z     return asyncio.run(self.serve(sockets=sockets))
+2026-07-30T01:08:31.047136756Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.047139376Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/asyncio/runners.py", line 190, in run
+2026-07-30T01:08:31.047274434Z     return runner.run(main)
+2026-07-30T01:08:31.047288635Z            ^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.047292155Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/asyncio/runners.py", line 118, in run
+2026-07-30T01:08:31.04739073Z     return self._loop.run_until_complete(task)
+2026-07-30T01:08:31.04739629Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.047398791Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+2026-07-30T01:08:31.047572931Z     return future.result()
+2026-07-30T01:08:31.047576011Z            ^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.047578171Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+2026-07-30T01:08:31.047652135Z     config.load()
+2026-07-30T01:08:31.047654765Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/uvicorn/config.py", line 458, in load
+2026-07-30T01:08:31.047787903Z     self.loaded_app = import_from_string(self.app)
+2026-07-30T01:08:31.047790493Z                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.047795883Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/uvicorn/importer.py", line 21, in import_from_string
+2026-07-30T01:08:31.047878988Z     module = importlib.import_module(module_str)
+2026-07-30T01:08:31.047883968Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.047898789Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/importlib/__init__.py", line 126, in import_module
+2026-07-30T01:08:31.047992284Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-07-30T01:08:31.047997694Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.048000184Z   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+2026-07-30T01:08:31.048013535Z   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+2026-07-30T01:08:31.048017875Z   File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+2026-07-30T01:08:31.048030276Z   File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+2026-07-30T01:08:31.048036456Z   File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+2026-07-30T01:08:31.048039326Z   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+2026-07-30T01:08:31.048042067Z   File "/opt/render/project/src/backend/main.py", line 3, in <module>
+2026-07-30T01:08:31.048129391Z     from api.routes import router
+2026-07-30T01:08:31.048133022Z   File "/opt/render/project/src/backend/api/routes.py", line 4, in <module>
+2026-07-30T01:08:31.048221887Z     from services.detection import detection_service
+2026-07-30T01:08:31.048229327Z   File "/opt/render/project/src/backend/services/detection.py", line 3, in <module>
+2026-07-30T01:08:31.048328553Z     from services.local_vision import local_vision_service
+2026-07-30T01:08:31.048343103Z   File "/opt/render/project/src/backend/services/local_vision.py", line 93, in <module>
+2026-07-30T01:08:31.048439859Z     local_vision_service = LocalVisionService()
+2026-07-30T01:08:31.048443089Z                            ^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.048447569Z   File "/opt/render/project/src/backend/services/local_vision.py", line 17, in __init__
+2026-07-30T01:08:31.048535334Z     self._ensure_models_exist()
+2026-07-30T01:08:31.048539965Z   File "/opt/render/project/src/backend/services/local_vision.py", line 26, in _ensure_models_exist
+2026-07-30T01:08:31.04863303Z     urllib.request.urlretrieve(PROTOTXT_URL, PROTOTXT_PATH)
+2026-07-30T01:08:31.0486377Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/urllib/request.py", line 241, in urlretrieve
+2026-07-30T01:08:31.048767777Z     with contextlib.closing(urlopen(url, data)) as fp:
+2026-07-30T01:08:31.048772278Z                             ^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.048775928Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/urllib/request.py", line 216, in urlopen
+2026-07-30T01:08:31.048897655Z     return opener.open(url, data, timeout)
+2026-07-30T01:08:31.048901765Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.048908705Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/urllib/request.py", line 525, in open
+2026-07-30T01:08:31.049054003Z     response = meth(req, response)
+2026-07-30T01:08:31.049058054Z                ^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.049069674Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/urllib/request.py", line 634, in http_response
+2026-07-30T01:08:31.049215023Z     response = self.parent.error(
+2026-07-30T01:08:31.049219173Z                ^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.049222373Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/urllib/request.py", line 563, in error
+2026-07-30T01:08:31.049380882Z     return self._call_chain(*args)
+2026-07-30T01:08:31.049387902Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-30T01:08:31.049391362Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/urllib/request.py", line 496, in _call_chain
+2026-07-30T01:08:31.0495362Z     result = func(*args)
+2026-07-30T01:08:31.049542551Z              ^^^^^^^^^^^
+2026-07-30T01:08:31.049544901Z   File "/opt/render/project/python/Python-3.11.9/lib/python3.11/urllib/request.py", line 643, in http_error_default
+2026-07-30T01:08:31.049695589Z     raise HTTPError(req.full_url, code, msg, hdrs, fp)
+2026-07-30T01:08:31.049734072Z urllib.error.HTTPError: HTTP Error 404: Not Found
+2026-07-30T01:08:33.472508005Z ==> Exited with status 1
+2026-07-30T01:08:33.475063785Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+2026-07-30T01:08:37.054820296Z ==> Running 'uvicorn main:app --host 0.0.0.0 --port $PORT'
