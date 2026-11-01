@@ -1,0 +1,42 @@
+# =============================================================================
+#  agri_ids.service — systemd unit for the Agri-IDS hardware node
+#
+#  Install:
+#      sudo cp agri_ids.service /etc/systemd/system/
+#      sudo systemctl daemon-reload
+#      sudo systemctl enable agri_ids
+#      sudo systemctl start agri_ids
+#
+#  Logs:
+#      sudo journalctl -u agri_ids -f
+# =============================================================================
+
+[Unit]
+Description=Agri-IDS Agricultural Intrusion Detection System
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+# Point to your actual project folder
+WorkingDirectory=/home/fred/Desktop/agri_ids
+# Use the virtual environment Python, not the system Python
+ExecStart=/home/fred/Desktop/agri_ids/venv/bin/python main.py
+
+# Put your actual Codespace/Backend URL and Key here!
+Environment="AGRI_IDS_API_URL=https://vigilant-space-telegram-9wjjr7pj6wxc6w-8000.app.github.dev/api"
+Environment="AGRI_IDS_API_KEY=REPLACE_ME"
+Environment="AGRI_IDS_NODE_ID=node-001"
+Environment="AGRI_IDS_LOG_LEVEL=INFO"
+
+Restart=on-failure
+RestartSec=10s
+StartLimitIntervalSec=60
+StartLimitBurst=3
+TimeoutStopSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
